@@ -16,7 +16,7 @@
                       $('#detail').html(data.detail);
                       $('#share_url').html(data.share_url);
                       $('#speaker').html(data.speaker);
-                      $('#viewers_count').html(100);
+                      $('#viewers_count').html("Viewers: " + 100);
                       $('#share').attr('src', data.share_url);
                   });
               });
@@ -24,10 +24,10 @@
       </script>
   </head>
   <body>
-    <iframe id="share" width="1000" height="400" src=""></iframe>
-    <div id="title"></div>
-    <div id="speaker"></div>
-    <div id="viewers_count"></div>
+    <iframe id="share" width="1233" height="400" src=""></iframe>
+    <div id="title" style="width: 400px;"></div>
+    <div id="speaker" style="width: 400px;"></div>
+    <div id="viewers_count" style="width: 400px;"></div>
     <div id="detail"></div>
     <div id="share_url"></div>
     <input type="text" name="id">
