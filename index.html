@@ -16,7 +16,6 @@
                     $('#detail').html(data.detail);
                     $('#share_url').html(data.share_url);
                     $('#speaker').html(data.speaker);
-                    $('#viewers_count').html("Viewers: " + 100);
                     $('#share').attr('src', data.share_url);
                 });
             });
@@ -39,14 +38,30 @@
     </div>
     <iframe id="share" width="1233" height="400" src=""></iframe>
     <div id="share_url"></div>
-        <div class="wrapper">
-            <div id="title_en"></div>
-            <div id="title_jp"></div>
-            <hr>
-            <div id="speaker"></div>
-            <hr>
-            <div id="viewers_count"></div>
-            <div id="detail"></div>
-        </div>
+    <div class="wrapper">
+        <div id="title_en"></div>
+        <div id="title_jp"></div>
+        <hr>
+        <div id="speaker"></div>
+        <hr>
+        <div id="viewers_count"></div>
+        <div id="detail"></div>
+    </div>
+    <video id="video-player" style="display: none;"></video>
+    <script src="https://player.live-video.net/1.5.0/amazon-ivs-player.min.js"></script>
+    <script>
+      if (IVSPlayer.isPlayerSupported) {
+        const player = IVSPlayer.create();
+        player.attachHTMLVideoElement(document.getElementById('video-player'));
+        player.load("https://f6f4901e4a33.us-east-1.playback.live-video.net/api/video/v1/us-east-1.657378360281.channel.NgjWm65h1zRD.m3u8");
+        player.play();
+        player.add
+        player.addEventListener(IVSPlayer.PlayerEventType.TEXT_METADATA_CUE,
+            function (cue) {
+                document.getElementById('viewers_count').innerHTML = 'Viewers: ' + cue.text.split(',')[0];
+            }
+        );
+      }
+    </script>
     </body>
 </html>
