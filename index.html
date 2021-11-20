@@ -52,6 +52,7 @@
         const player = IVSPlayer.create();
         player.attachHTMLVideoElement(document.getElementById('video-player'));
         player.load("https://f6f4901e4a33.us-east-1.playback.live-video.net/api/video/v1/us-east-1.657378360281.channel.NgjWm65h1zRD.m3u8");
+        player.volume(0);
         player.play();
         player.add
         player.addEventListener(IVSPlayer.PlayerEventType.TEXT_METADATA_CUE,
