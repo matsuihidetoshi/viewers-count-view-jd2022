@@ -1,65 +1,139 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="utf-8">
-    <title>サンプル</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(function(){
-            const base_url = "https://script.google.com/macros/s/AKfycbyDb5y5RqvKaZB7CFlM3tNRq2rKrj7oclHtn_rMj89a6cMnhD5npqgGQvCuvoFBOt0_/exec?id=";
-            $('input[name="send"]').click(function(){
-                var url = base_url + $('input[name="id"]').val();
-                $.getJSON(url, (data) => {
-                    console.log(data);
-                    $('#title_en').html(data.session_title_en);
-                    $('#title_jp').html(data.session_title_jp);
-                    $('#detail').html(data.detail);
-                    $('#speaker').html(data.speaker);
-                    $('#share').attr('src', data.share_url);
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>登壇者情報</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <style type="text/css">
+            body {
+                font-family: "ヒラギノ角ゴ ProN W3", HiraKakuProN-W3, 游ゴシック, "Yu Gothic", メイリオ, Meiryo, Verdana, Helvetica, Arial, sans-serif;
+            }
+            .container {
+                margin-top: 5px;
+                margin-left: 3px;
+            }
+            .viewer {
+                width: 200px;
+                height: 200px;
+                text-align: center;
+                font-size: 15pt;
+            }
+            .viewer-counter {
+                font-size: 30pt;
+            }
+            .session_info {
+                font-size: 20pt;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(function () {
+                const base_url = "https://script.google.com/macros/s/AKfycbwOi4d0MeluHJT08xSpPD4Ps1_qG20TwnOdMTIOZH50kcbHIKGV4Y4hf0kk3usua3rr/exec?id=";
+                $('input[name="send"]').click(function () {
+                    let url = base_url + $('input[name="id"]').val();
+                    $.getJSON(url, (data) => {
+                        $('#title').html(data.title);
+                        $('#speaker_name').html(data.speaker_name);
+                        $('#track_info').html(
+                            "トラック" + data.session_track_id + " " + data.session_time_start + "〜" + data.session_time_end
+                        );
+                    });
                 });
             });
-        });
-    </script>
-    <style type="text/css">
-        body{
-            background-color: #1A1A1A;
-            color: #FFFFFF;
+        </script>
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="card-deck mb-5">
+                <div class="card viewer">
+                    <video id="video-player-1" style="display: none;"></video>
+                    <div class="card-body">
+                        <div>Thank you!!</div>
+                        <div id="js-track_a_viewers" class="viewer-counter"></div>
+                        <div>viewers</div>
+                    </div>
+                </div>
+                <div class="card viewer">
+                    <video id="video-player-2" style="display: none;"></video>
+                    <div class="card-body">
+                        <div>Thank you!!</div>
+                        <div id="js-track_b_viewers" class="viewer-counter"></div>
+                        <div>viewers</div>
+                    </div>
+                </div>
+                <div class="card viewer">
+                    <video id="video-player-3" style="display: none;"></video>
+                    <div class="card-body">
+                        <div>Thank you!!</div>
+                        <div id="js-track_c_viewers" class="viewer-counter"></div>
+                        <div>viewers</div>
+                    </div>
+                </div>
+                <div class="card viewer">
+                    <video id="video-player-4" style="display: none;"></video>
+                    <div class="card-body">
+                        <div>Thank you!!</div>
+                        <div id="js-track_d_viewers" class="viewer-counter"></div>
+                        <div>viewers</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <input type="text" name="id">
+                <input type="button" name="send" value="表示">
+            </div>
+
+            <div class="session_info">
+                <div id="track_info"></div>
+                <div id="title"></div>
+                <div id="speaker_name"></div>
+            </div>
+        </div>
+        <script src="https://player.live-video.net/1.5.0/amazon-ivs-player.min.js"></script>
+        <script>
+        if (IVSPlayer.isPlayerSupported) {
+            const players = [
+                {
+                    id: 'video-player-1',
+                    url: 'https://97b168c50b4f.ap-northeast-1.playback.live-video.net/api/video/v1/ap-northeast-1.657378360281.channel.i1dkS3Tk9vxS.m3u8',
+                    displayElement: 'js-track_a_viewers'
+                },
+                {
+                    id: 'video-player-2',
+                    url: 'https://97b168c50b4f.ap-northeast-1.playback.live-video.net/api/video/v1/ap-northeast-1.657378360281.channel.TBOgM7EdLIrl.m3u8',
+                    displayElement: 'js-track_b_viewers'
+                },
+                {
+                    id: 'video-player-3',
+                    url: 'https://97b168c50b4f.ap-northeast-1.playback.live-video.net/api/video/v1/ap-northeast-1.657378360281.channel.PDIBhbARuRys.m3u8',
+                    displayElement: 'js-track_c_viewers'
+                },
+                {
+                    id: 'video-player-4',
+                    url: 'https://97b168c50b4f.ap-northeast-1.playback.live-video.net/api/video/v1/ap-northeast-1.657378360281.channel.g5UC6XLnar7c.m3u8',
+                    displayElement: 'js-track_d_viewers'
+                }
+            ]
+            players.forEach(playerData => {
+                const player = IVSPlayer.create();
+                player.attachHTMLVideoElement(document.getElementById(playerData.id));
+                player.load(playerData.url);
+                player.play();
+                player.add
+                player.addEventListener(IVSPlayer.PlayerEventType.TEXT_METADATA_CUE,
+                    function (cue) {
+                        document.getElementById(playerData.displayElement).innerHTML = cue.text.split(',')[0];
+                    }
+                );
+            })
+            
         }
-        .wrapper{
-            width: 400px;
-        }
-    </style>
-</head>
-<body>
-    <div>
-        <input type="text" name="id">
-        <input type="button" name="send" value="表示">
-    </div>
-    <iframe id="share" width="1233" height="400" src=""></iframe>
-    <div class="wrapper">
-        <div id="title_en"></div>
-        <div id="title_jp"></div>
-        <hr>
-        <div id="speaker"></div>
-        <hr>
-        <div id="viewers_count"></div>
-        <div id="detail"></div>
-    </div>
-    <video id="video-player" style="display: none;"></video>
-    <script src="https://player.live-video.net/1.5.0/amazon-ivs-player.min.js"></script>
-    <script>
-      if (IVSPlayer.isPlayerSupported) {
-        const player = IVSPlayer.create();
-        player.attachHTMLVideoElement(document.getElementById('video-player'));
-        player.load("https://f6f4901e4a33.us-east-1.playback.live-video.net/api/video/v1/us-east-1.657378360281.channel.NgjWm65h1zRD.m3u8");
-        player.play();
-        player.add
-        player.addEventListener(IVSPlayer.PlayerEventType.TEXT_METADATA_CUE,
-            function (cue) {
-                document.getElementById('viewers_count').innerHTML = 'Viewers: ' + cue.text.split(',')[0];
-            }
-        );
-      }
-    </script>
+        </script>
     </body>
 </html>
